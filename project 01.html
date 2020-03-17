@@ -5,7 +5,7 @@
 	position: absolute;
 	top: 0px;
 	width: 100%;
-	padding: 10px;
+	padding: 20px;
 	text-align: center;
 	color: #ffff00
 }
@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<div id = "info"><a href="javascript:toggleCamera();">toggle</a></div>
+<div id = "info"><a href="javascript:toggleCamera();"><button type="button">toggle</button></a></div>
 
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
 <script src = "https://threejs.org/examples/js/controls/OrbitControls.js"></script>
@@ -61,9 +61,10 @@ function init(){
 	
 	window.addEventListener ('resize', onWindowResize, false);
 	
-	boxG = new THREE.CylinderGeometry(10,10,50,20);
+	boxG = new THREE.CylinderGeometry(30,30,50,20);
 	box = new THREE.Mesh (boxG, new THREE.MeshNormalMaterial());
 	scene.add(box);
+	box.position.set(0,25,0);
 	
 	geometry = new THREE.Geometry();
 	geometry.vertices.push (
