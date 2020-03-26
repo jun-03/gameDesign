@@ -197,6 +197,21 @@ function animate() {
 	puck.puckLight.position.y += 10;
   }
   
+  //球和牆壁之碰撞偵測
+  for(i=0;i<walls.length;i++){
+	  let wall = walls[i];
+	  for(j=0;j<pucks.length;j++){
+	      let puck = pucks[j];
+	      if(puck.pos.clone().sub(wall.part.point).dot(wall.part.normal) < eps + 5){
+	      	let vN = wall.part.normal.clone().multiplyScalar(puck.vel.dot(wall.part.normal));
+	        let vT = puck.vel.clone().sub(vN);
+	        puck.vel.copy(vT.add(vN.multiplyScalar(-cR)));
+	        var audio = document.getElementById("sounds");
+	    	audio.play();
+	      }
+	  }
+  }
+  
   //球和球之彈性碰撞
   for(i=0;i<pucks.length;i++){
 	for(j=i+1;j<pucks.length;j++){
@@ -206,30 +221,15 @@ function animate() {
 	    
 	    //兩puck半徑總和 = 10
 	    if(d<10){
-	    	var audio = document.getElementById("sounds");
-	    	audio.play();
 	        let v1 = puck1.vel.clone().sub(puck1.pos.clone().sub(puck2.pos).multiplyScalar(puck1.vel.clone().sub(puck2.vel).dot(puck1.pos.clone().sub(puck2.pos))/Math.pow(puck1.pos.clone().sub(puck2.pos).length(),2)));
 	        let v2 = puck2.vel.clone().sub(puck2.pos.clone().sub(puck1.pos).multiplyScalar(puck2.vel.clone().sub(puck1.vel).dot(puck2.pos.clone().sub(puck1.pos))/Math.pow(puck2.pos.clone().sub(puck1.pos).length(),2)));
 	        puck1.vel.copy(v1);
 	    	puck2.vel.copy(v2);
+	    	var audio = document.getElementById("sounds");
+	    	audio.play();
 	    }
 	  }
 	}
-  
-  //球和牆壁之碰撞偵測
-  for(i=0;i<walls.length;i++){
-	  let wall = walls[i];
-	  for(j=0;j<pucks.length;j++){
-	      let puck = pucks[j];
-	      if(puck.pos.clone().sub(wall.part.point).dot(wall.part.normal) < eps + 5){
-	      	var audio = document.getElementById("sounds");
-	    	audio.play();
-	      	let vN = wall.part.normal.clone().multiplyScalar(puck.vel.dot(wall.part.normal));
-	        let vT = puck.vel.clone().sub(vN);
-	        puck.vel.copy(vT.add(vN.multiplyScalar(-cR)));
-	      }
-	  }
-  }
   
   requestAnimationFrame(animate);
   render();
