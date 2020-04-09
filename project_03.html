@@ -68,7 +68,7 @@ var keys = [
   [0.5, pose2],
   [1, pose1]
 ];
-var T = 120 / 104;
+var T = 120 / 107;
 var clock = new THREE.Clock();
 var ts = clock.getElapsedTime(); // start time
 var intKey = [];
@@ -222,12 +222,18 @@ function makeLeg() {
 
 function makeHead() {
   var headGroup = new THREE.Group();
-  var mat = new THREE.MeshNormalMaterial({
-    transparent: true,
-    opacity: opc
-  });
+  
+  var cubeMaterials = [
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('minecraft_him.png')}),
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('minecraft_him.png')}),
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('minecraft_him.png')}),
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('minecraft_him.png')}),
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('minecraft_him.png')}),
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('minecraft_him.png')})
+  ];
+  var mat = new THREE.MeshFaceMaterial(cubeMaterials);
   var headBody = new THREE.Mesh(new THREE.BoxGeometry(2.52 * k, 2.52 * k, 2.52 * k), mat);
-
+  
   headGroup.add(headBody);
   headBody.position.y = 2.52 * k / 2;
   headGroup.add(new THREE.AxesHelper(k));
