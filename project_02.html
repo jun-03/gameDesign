@@ -208,6 +208,7 @@ function animate() {
 	        puck.vel.copy(vT.add(vN.multiplyScalar(-cR)));
 	        var audio = document.getElementById("sounds");
 	    	audio.play();
+	    	audio.volume = 0.5;
 	      }
 	  }
   }
@@ -227,6 +228,7 @@ function animate() {
 	    	puck2.vel.copy(v2);
 	    	var audio = document.getElementById("sounds");
 	    	audio.play();
+	    	audio.volume = 0.5;
 	    }
 	  }
 	}
