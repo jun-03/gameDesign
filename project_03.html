@@ -226,12 +226,12 @@ function makeHead() {
   //var mat = new THREE.MeshNormalMaterial({transparent:true, opacity:opc});
   
   var cubeMaterials = [
-  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/minecraft_him.png')}),
-  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/minecraft_him.png')}),
-  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/minecraft_him.png')}),
-  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/minecraft_him.png')}),
-  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/minecraft_him.png')}),
-  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('textures/minecraft_him.png')})
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/gUniBvZ.png?1')}),	//右
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/53omoxv.png?1')}),	//左
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/PBqW4Ed.png')}),		//上
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/PBqW4Ed.png')}),		//下
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/hNrmjY2.png?1')}),	//後
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/IuGFL8n.png?1')})		//前
   ];
   var mat = new THREE.MeshFaceMaterial(cubeMaterials);
   var headBody = new THREE.Mesh(new THREE.BoxGeometry(2.52 * k, 2.52 * k, 2.52 * k), cubeMaterials);
