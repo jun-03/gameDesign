@@ -11,9 +11,18 @@ function agentMesh (size, colorName='red') {
 	  geometry.faces.push(new THREE.Face3(1, 3, 0));
 	  geometry.faces.push(new THREE.Face3(1, 2, 3));
 	  geometry.computeFaceNormals()
+	  
+	  var cubeMaterials = [
+  	//new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/gUniBvZ.png?1')}),	//左
+  	//new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/53omoxv.png?1')}),	//右
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/PBqW4Ed.png')}),	//上
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/PBqW4Ed.png')}),	//下
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/hNrmjY2.png?1')}),	//後
+  	new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('https://i.imgur.com/IuGFL8n.png?1')})		//前
+  ];
+  	var mat = new THREE.MeshFaceMaterial(cubeMaterials);
 	
-	return new THREE.Mesh (geometry, 
-	     new THREE.MeshBasicMaterial({color:colorName, wireframe:true}))  
+	return new THREE.Mesh (geometry, mat); 
 }
 
 class Agent {
@@ -48,11 +57,49 @@ class Agent {
     
     // collision
     // for all obstacles in the scene
-    let obs = scene.obstacles;
-
+    //let obs = scene.obstacles;
+	let obs = scene.obstacles;
     // pick the most threatening one
     // apply the repulsive force
     // (write your code here)
+    let min_dis;	
+    let index;		
+    let dis;
+    let counter=0;
+    for(let i=0;i<obs.length;i++){	//找最近障礙物
+      let ob = obs[i];
+      let car_p = this.pos;
+      let ob_p = ob.center;
+      dis = ((car_p.x)-(ob_p.x))*((car_p.x)-(ob_p.x))+((car_p.z)-(ob_p.z))*((car_p.z)-(ob_p.z));
+  	  dis = Math.sqrt(dis);
+  	  if(counter==0){	//第一次迴圈時圈值
+      	min_dis = dis;
+      	index = i;
+      	counter++;
+      	continue;
+      }
+  	  if(dis<min_dis){
+  	  	index = i ;
+  	  	min_dis = dis;
+  	  }
+	}
+	
+	if (counter!=0){
+		let vhat = this.vel.clone().normalize();
+		let point = obs[index].center.clone().sub (this.pos) // c-p
+		let proj  = point.dot(vhat);
+		const REACH = 50
+		const K = 5
+		let perp = new THREE.Vector3();
+		perp.subVectors (point, vhat.clone().setLength(proj));
+		let overlap = obs[index].size + this.halfSize - perp.length()
+    	if (overlap > 0) {
+			perp.setLength (K*overlap);
+			perp.negate()
+        	this.force.add (perp);
+			console.log ("hit:", perp);
+		}
+	}
 
 	// Euler's method       
     this.vel.add(this.force.clone().multiplyScalar(dt));
